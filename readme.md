@@ -38,6 +38,6 @@ ant clean
 - create - Task that creates build and dist directories.
 
 ```shell
-ant clean
+ant create
 ```
 
