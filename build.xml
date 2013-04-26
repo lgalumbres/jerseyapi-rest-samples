@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<project name="jerseyapi-rest-samples" basedir="." default="dist">
+	<property file="build.properties" />
+   
+   <path id="class.path">
+      <fileset dir="${lib.dir}">
+         <include name="**/*.jar"/>
+      </fileset>
+   </path>
+   
+   <target name="compile" depends="create" description="Task to compile the source files.">
+      <javac destdir="${build.dir}/${sample.build.dir}">
+         <classpath refid="class.path"/>
+         <src path="${sample.src.dir}"/>
+      </javac>
+        
+      <javac destdir="${build.dir}/${crudsample.build.dir}">
+         <classpath refid="class.path"/>
+         <src path="${crudsample.src.dir}"/>
+      </javac>
+        
+      <javac destdir="${build.dir}/${jaxbsample.build.dir}">
+         <classpath refid="class.path"/>
+         <src path="${jaxbsample.src.dir}"/>
+      </javac>
+   </target>
+   
+   <target name="build" depends="compile" description="Task to build the war files.">
+      <war destfile="${dist.dir}/${sample.war.name}" webxml="${sample.web.dir}/WEB-INF/web.xml">
+         <lib dir="${lib.dir}">
+            <exclude name="servlet-api.jar"/>
+         </lib>
+         <classes dir="${build.dir}/${sample.build.dir}"/>
+      </war>
+      
+      <war destfile="${dist.dir}/${crudsample.war.name}" webxml="${crudsample.web.dir}/WEB-INF/web.xml">
+         <fileset dir="${crudsample.web.dir}"/>
+         <lib dir="${lib.dir}">
+            <exclude name="servlet-api.jar"/>
+         </lib>
+         <classes dir="${build.dir}/${crudsample.build.dir}"/>
+      </war>
+      
+      <war destfile="${dist.dir}/${jaxbsample.war.name}" webxml="${jaxbsample.web.dir}/WEB-INF/web.xml">
+         <lib dir="${lib.dir}">
+            <exclude name="servlet-api.jar"/>
+         </lib>
+         <classes dir="${build.dir}/${jaxbsample.build.dir}"/>
+      </war>
+   </target>
+ 
+   <target name="clean" description="Task to delete build directories.">
+      <delete dir="${build.dir}"/>
+      <delete dir="${dist.dir}"/>
+   </target>
+ 
+   <target name="create" depends="clean" description="Task to create build directories.">
+      <mkdir dir="${build.dir}/${sample.build.dir}"/>
+      <mkdir dir="${build.dir}/${crudsample.build.dir}"/>
+      <mkdir dir="${build.dir}/${jaxbsample.build.dir}"/>
+      <mkdir dir="${dist.dir}"/>
+   </target>
+	
+	<target name="deploy" depends="build" description="Task to deploy the war files to a specific location (i.e. application server).">
+		<copy file="${dist.dir}/${sample.war.name}" todir="${deploy.dir}"/>
+      <copy file="${dist.dir}/${crudsample.war.name}" todir="${deploy.dir}"/>
+      <copy file="${dist.dir}/${jaxbsample.war.name}" todir="${deploy.dir}"/>
+	</target>
+</project>
