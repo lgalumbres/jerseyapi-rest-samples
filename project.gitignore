@@ -1,0 +1,18 @@
+# Compiled Source Files #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Eclipse Config Files #
+*.classpath
+*.project
+
+# Directories #
+.settings/
+bin/
+build/
+dist/
+target/
